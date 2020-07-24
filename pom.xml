@@ -20,6 +20,7 @@
 
     <modules>
         <module>kafkalearing</module>
+        <module>RabbitMQLearning</module>
     </modules>
 
     <properties>
