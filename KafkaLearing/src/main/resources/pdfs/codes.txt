@@ -1,0 +1,27 @@
+1.先启动ZooKeeper： ./zkserver.sh start
+2.后台启动Kafka： nohup bin/kafka-server-start.sh config/server.properties &
+
+1）查看当前服务器中的所有 topic
+bin/kafka-topics.sh --zookeeper hadoop102:2181 --list
+
+2）创建 topic
+bin/kafka-topics.sh --zookeeper hadoop102:2181 \ --create --replication-factor 3 --partitions 1 --topic first 选项说明：
+--topic 定义 topic 名
+--replication-factor  定义副本数
+--partitions  定义分区数
+
+3）删除 topic
+bin/kafka-topics.sh --zookeeper hadoop102:2181 \ --delete --topic first
+需要 server.properties 中设置 delete.topic.enable=true 否则只是标记删除或者直接重启。
+
+4）发送消息
+bin/kafka-console-producer.sh \ --broker-list hadoop102:9092 --topic first
+>hello world
+>atguigu  atguigu
+
+5）消费消息
+bin/kafka-console-consumer.sh \ --zookeeper hadoop102:2181 --from-beginning --topic first
+--from-beginning：会把 first 主题中以往所有的数据都读取出来。根据业务场景选择是否增加该配置。
+
+6）查看某个 Topic 的详情
+bin/kafka-topics.sh --zookeeper hadoop102:2181 \ --describe --topic first
